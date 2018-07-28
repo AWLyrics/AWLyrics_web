@@ -15,7 +15,13 @@ def index(request):
     else :
         return render(request, "index.html", {"info":""})
 def generateFun(name):
-    name = name + name[::-1]
+    name = name +"\r"+ name[::-1]
+    name = name + name
+    name = name + name
+    name = name + name
+    name = name + name
+    name = name + name
+    name = name + name
     return name
 def generate(request, name):
     if request.is_ajax():

@@ -20,7 +20,40 @@
     <link href="{%static 'css/css" rel="stylesheet" type="text/css'%}">
     <link href="{%static 'css/css(1)" rel="stylesheet" type="text/css'%}">
   </head>
-  <body id="top" data-spy="scroll" data-target=".navbar-collapse" data-offset="50">
+  <body id="top" data-spy="scroll" data-target=".navbar-collapse" data-offset="50" onload="init();">
+    <script>
+var observe;
+if (window.attachEvent) {
+  observe = function (element, event, handler) {
+    element.attachEvent('on'+event, handler);
+  };
+}
+else {
+  observe = function (element, event, handler) {
+    element.addEventListener(event, handler, false);
+  };
+}
+function init () {
+  var text = document.getElementById('message');
+  function resize () {
+    text.style.height = 'auto';
+    text.style.height = text.scrollHeight+'px';
+  }
+  /* 0-timeout to get the already changed text */
+  function delayedResize () {
+    window.setTimeout(resize, 0);
+  }
+  observe(text, 'change',  resize);
+  observe(text, 'cut',     delayedResize);
+  observe(text, 'paste',   delayedResize);
+  observe(text, 'drop',    delayedResize);
+  observe(text, 'keydown', delayedResize);
+
+  text.focus();
+  text.select();
+  resize();
+}
+    </script>
     <div class="adcenter"><script src="http://www.cssmoban.com/include/new/ggad2_728x90.js"></script></div>
       <!-- Preloader section -->
       <div class="preloader" style="display: none;">
@@ -468,12 +501,12 @@
                   <!--<form id="contact-form" method="get" action="/">-->
                   <input id=name name="name" type="text" class="form-control" placeholder="Your Name" required="">
                   <!--<input id=email name="email" type="email" class="form-control" placeholder="Your Email" required="">-->
-                  <textarea id=message name="message" class="form-control" placeholder="Message" rows="5" required="">{{info}}</textarea>
-                  <input id=submit onclick="ajax_request()" type="submit" class="form-control submit" value="SEND MESSAGE">
+                  <textarea id=message name="message" class="form-control" placeholder="Message" rows="4"  >{{info}}</textarea>
+                  <input id=submit onclick="ajax_request()" type="submit" class="form-control submit" value="GENERATE">
                   <!--</form>-->
                   <script src="http://apps.bdimg.com/libs/jquery/1.11.1/jquery.min.js"></script>
                   <script >
-                    function ajax_request(){
+function ajax_request(){
                         var xmlhttp;
                         if(window.XMLHttpRequest){
                             xmlhttp = new XMLHttpRequest();
@@ -482,15 +515,13 @@
                         }
                         xmlhttp.onreadystatechange = function(){
                             if(xmlhttp.readyState == 4 && xmlhttp.status == 200){
-                                document.getElementById("message").innerHTML=xmlhttp.responseText
+                                message = document.getElementById("message")
+                                message.innerHTML=xmlhttp.responseText;
                             }
-
                         }
-
                         xmlhttp.open("GET", "/generate/"+$('#name').val(), true);
                         xmlhttp.setRequestHeader("X-Requested-With", "XMLHttpRequest");
                         xmlhttp.send();
-
                     }
                   </script>
                 </div>
