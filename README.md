@@ -5,5 +5,5 @@ web framework for AWLYrics
 ## todolist
 - [x] 异步刷新
 - [x] python控制后台
-- []  整体布局
-- []  歌词界面
+- [ ]  整体布局
+- [ ]  歌词界面
