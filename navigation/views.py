@@ -3,17 +3,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.conf import settings
 from .forms import generateForm
 def index(request):
-    if request.method == "POST":
-        form = generateForm(request.POST)
-        if form.is_valid():
-            return  render(request, "index.html",{"info":request.POST['name']})
-        else :
-            return  render(request, "index.html",{"info":"not valid"})
-    elif request.is_ajax():
-        return HttpResponse("111")
-     
-    else :
-        return render(request, "index.html", {"info":""})
+    return render(request, "index.html", {"info":""})
 def generateFun(name):
     name = name +"\r"+ name[::-1]
     name = name + name
